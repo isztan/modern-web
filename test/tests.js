@@ -59,7 +59,7 @@ describe('02-inheritance.js', function() {
 
 });
 
-describe('03-statistics', function() {
+describe('03-statistics.js', function() {
 
     it('should correctly calculate sum', function() {
         var s = new Statistics([1,2,3,4,5,6,7,8,9]);
@@ -84,6 +84,41 @@ describe('03-statistics', function() {
     it('should correctly calculate standard deviation', function() {
         var s = new Statistics([1,2,3,4,5]);
         expect(s.standardDeviation()).to.equal(Math.sqrt(2));
+    });
+
+});
+
+describe('04-dom.js', function() {
+
+    it('should correctly apply styles to the element', function() {
+        var el = document.createElement('p');
+        el.textContent = 'Lorem ipsum dolor sit amet.';
+        document.body.appendChild(el);
+
+        setCSS(el, { fontSize: '24px', color: 'red' });
+
+        var elStyles = getComputedStyle(el);
+        expect(elStyles.getPropertyValue('font-size')).to.equal('24px');
+        expect(elStyles.getPropertyValue('color').replace(/\s/g, '')).to.equal('rgb(255,0,0)');
+
+        el.parentNode.removeChild(el);
+    });
+
+});
+
+describe('05-delegate.js', function() {
+
+    it('should correctly work with adding new fields', function() {
+
+        var list = document.createElement('ul');
+        list.innerHTML = '<li><a href="#" class="add">Add</a></li>';
+        document.body.appendChild(list);
+        list.addEventListener('click', handleMultiValueClick, false);
+        list.querySelector('.add').click();
+
+        expect(list.querySelectorAll('input').length).to.equal(1);
+
+        //list.parentNode.removeChild(list);
     });
 
 });
