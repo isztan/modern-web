@@ -118,8 +118,39 @@ describe('05-delegate.js', function() {
         list.querySelector('.add').click();
 
         expect(list.querySelectorAll('input').length).to.equal(1);
-        
+
         list.parentNode.removeChild(list);
+    });
+
+    it('`closest` should correctly find parent', function() {
+
+        var div = document.createElement('div');
+        div.innerHTML = '<p>Lorem ipsum <a>dolor sit amet</a></p>';
+        document.body.appendChild(div);
+        var p = div.querySelector('p'), a = p.querySelector('a');
+
+        expect(closest(a, 'p')).to.equal(p);
+        expect(closest(a, 'div')).to.equal(div);
+        
+        div.parentNode.removeChild(div);
+    });
+
+    it('`closestFilter` should correctly find parent', function() {
+
+        var div = document.createElement('div');
+        div.innerHTML = '<p>Lorem ipsum <a>dolor sit amet</a></p>';
+        document.body.appendChild(div);
+        var p = div.querySelector('p'), a = p.querySelector('a');
+
+        expect(closestFilter(a, function(el) {
+            return el.nodeName == 'P';
+        })).to.equal(p);
+
+        expect(closestFilter(a, function(el) {
+            return el.nodeName == 'DIV';
+        })).to.equal(div);
+
+        div.parentNode.removeChild(div);
     });
 
 });

@@ -17,12 +17,21 @@ function handleMultiValueClick(ev) {
 
     }
 
-    // keeps walking up the DOM hierarchy from `el` until it reaches
-    // an element matching the node name specified
-    function closest(el, tagType) {
-        while (el.nodeName != tagType.toUpperCase()) {
-            el = el.parentNode;
-        }
-        return el;
+}
+
+// Keeps walking up the DOM hierarchy from `el` until it reaches
+// an element matching the node name specified. If the current
+// element already matches the tagType, returns that element.
+function closest(el, tagType) {
+    while (el.nodeName != tagType.toUpperCase()) {
+        el = el.parentNode;
     }
+    return el;
+}
+
+function closestFilter(el, filter) {
+    while (!filter(el)) {
+        el = el.parentNode;
+    }
+    return el;
 }
