@@ -113,12 +113,13 @@ describe('05-delegate.js', function() {
         var list = document.createElement('ul');
         list.innerHTML = '<li><a href="#" class="add">Add</a></li>';
         document.body.appendChild(list);
+
         list.addEventListener('click', handleMultiValueClick, false);
         list.querySelector('.add').click();
 
         expect(list.querySelectorAll('input').length).to.equal(1);
-
-        //list.parentNode.removeChild(list);
+        
+        list.parentNode.removeChild(list);
     });
 
 });
