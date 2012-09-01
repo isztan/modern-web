@@ -39,27 +39,63 @@ describe('common.js', function() {
 });
 
 
-describe('02-inheritance.js', function() {
+describe('01-inheritance.js', function() {
 
-    it('should correctly return the score board', function() {
-
-        var mySoccerGame = new Soccer('A', 'B');
-        expect(mySoccerGame.getScore()).to.eql({ A: 0, B: 0 });
-
+    it('should throw exceptions for abstract shapes', function() {
+        var s = new Shape();
+        expect(s.getArea).to.throw();
+        expect(s.getPerimeterLength).to.throw();
     });
 
-    it('should correctly increment scores', function() {
+    it('should correctly work for vectors', function() {
+        var v = new Vector2d(3, 4),
+            u = new Vector2d(2, 6);
 
-        var myBasketballGame = new Basketball('A', 'B');
-        myBasketballGame.homeScores();
-        myBasketballGame.guestScores(3);
-        expect(myBasketballGame.getScore()).to.eql({ A: 2, B: 3 });
+        expect(v.length()).to.equal(5);
+        expect(v.add(u)).to.eql(new Vector2d(5, 10));
+        expect(v.dot(u)).to.equal(30);
+        expect(v.neg()).to.eql(new Vector2d(-3, -4));
+        expect(v.sub(u)).to.eql(new Vector2d(1, -2));
+    });
 
+    it('should correctly calculate rectangles', function() {
+        var r = new Rectangle(new Vector2d(1, 1), 3, 4);
+
+        expect(r.corner).to.eql({x: 1, y: 1});
+        expect(r.width).to.equal(3);
+        expect(r.height).to.equal(4);
+
+        expect(r.getArea()).to.equal(12);
+        expect(r.getPerimeterLength()).to.equal(14);
+        expect(r.getBoundingBox()).to.eql(r);
+    });
+
+    it('should correctly calculate circles', function() {
+        var c = new Circle(new Vector2d(2, 2), 3);
+
+        expect(c.getArea()).to.equal(Math.PI * 9);
+        expect(c.getPerimeterLength()).to.equal(Math.PI * 6);
+        expect(c.getBoundingBox()).to.eql(new Rectangle(new Vector2d(-1, -1), 6, 6));
+    });
+
+    it('should correctly calculate triangles', function() {
+        var t = new Triangle([
+            new Vector2d(1, 1),
+            new Vector2d(3, 2),
+            new Vector2d(4, 0)
+        ]);
+
+        expect(t.getArea()).to.be.within(2.499999, 2.500001);
+        expect(t.getPerimeterLength()).to.be.within(7.63441361516794, 7.63441361516798);
+        expect(t.getBoundingBox()).to.eql(new Rectangle(
+            new Vector2d(1, 0),
+            3, 2
+        ));
     });
 
 });
 
-describe('03-statistics.js', function() {
+describe('02-statistics.js', function() {
 
     it('should correctly calculate sum', function() {
         var s = new Statistics([1,2,3,4,5,6,7,8,9]);
@@ -88,7 +124,7 @@ describe('03-statistics.js', function() {
 
 });
 
-describe('04-dom.js', function() {
+describe('03-dom.js', function() {
 
     it('should correctly apply styles to the element', function() {
         var el = document.createElement('p');
@@ -106,7 +142,7 @@ describe('04-dom.js', function() {
 
 });
 
-describe('05-delegate.js', function() {
+describe('04-delegate.js', function() {
 
     it('should correctly work with adding new fields', function() {
 
